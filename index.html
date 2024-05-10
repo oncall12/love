@@ -37,7 +37,7 @@ canvas {
 h4 {  
   font-family: "KaiTi", sans-serif; /* 添加sans-serif作为备选字体 */  
   font-size: 20px; /* 你可以根据需要调整字体大小 */  
-  color: #f584b7;  
+  color: #ec0c70;  
   margin: 0; /* 移除默认的外边距 */  
   text-align: center; /* 水平居中 */  
   white-space: nowrap; /* 防止文本换行 */  
@@ -46,6 +46,107 @@ h4 {
   /* 如果overflow属性设置为hidden并且使用了text-overflow: ellipsis，需要确保有一个明确的宽度限制 */  
 }
 
+@-webkit-keyframes star-opacity {
+            0% {
+                opacity: 0
+            }
+
+            40% {
+                opacity: 1
+            }
+
+            60% {
+                opacity: 1
+            }
+
+            100% {
+                opacity: 0
+            }
+        }
+
+        @keyframes star-opacity {
+            0% {
+                opacity: 0
+            }
+
+            40% {
+                opacity: 1
+            }
+
+            60% {
+                opacity: 1
+            }
+
+            100% {
+                opacity: 0
+            }
+        }
+
+        @-webkit-keyframes star-pos {
+            0% {
+                transform: scale(0) rotate(0) translate3d(0, 0, 0);
+                -webkit-transform: scale(0) rotate(0) translate3d(0, 0, 0);
+                -moz-transform: scale(0) rotate(0) translate3d(0, 0, 0)
+            }
+
+            100% {
+                transform: scale(1) rotate(0) translate3d(-450px, 450px, 0);
+                -webkit-transform: scale(1) rotate(0) translate3d(-450px, 450px, 0);
+                -moz-transform: scale(1) rotate(0) translate3d(-450px, 450px, 0)
+            }
+        }
+
+        @keyframes star-pos {
+            0% {
+                transform: scale(0) rotate(0) translate3d(0, 0, 0);
+                -webkit-transform: scale(0) rotate(0) translate3d(0, 0, 0);
+                -moz-transform: scale(0) rotate(0) translate3d(0, 0, 0)
+            }
+
+            100% {
+                transform: scale(1) rotate(0) translate3d(-450px, 450px, 0);
+                -webkit-transform: scale(1) rotate(0) translate3d(-450px, 450px, 0);
+                -moz-transform: scale(1) rotate(0) translate3d(-450px, 450px, 0)
+            }
+        }
+
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        .star {
+            display: block;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: #fff;
+            position: absolute;
+            -webkit-transform-origin: 100% 0;
+            transform-origin: 100% 0;
+            -webkit-animation: star-opacity 5s infinite ease-in, star-pos 5s infinite ease-in;
+            animation: star-opacity 5s infinite ease-in, star-pos 5s infinite ease-in;
+            -webkit-box-shadow: 0 0 5px 5px rgba(255, 255, 255, .3);
+            box-shadow: 0 0 5px 5px rgba(255, 255, 255, .3);
+            opacity: 0;
+            z-index: 2
+        }
+
+        .star:after {
+            content: '';
+            display: block;
+            top: 0;
+            left: 4px;
+            border: 0 solid #fff;
+            border-width: 0 90px 2px;
+            border-color: transparent transparent transparent rgba(255, 255, 255, .3);
+            -webkit-transform: rotate(-45deg) translate3d(1px, 3px, 0);
+            transform: rotate(-45deg) translate3d(1px, 3px, 0);
+            -webkit-box-shadow: 0 0 1px 0 rgba(255, 255, 255, .1);
+            box-shadow: 0 0 1px 0 rgba(255, 255, 255, .1);
+            -webkit-transform-origin: 0% 100%;
+            transform-origin: 0% 100%
+        }
 
 </style>
 
@@ -55,7 +156,15 @@ h4 {
     <h4>棒棒糖 格式:11姓名22你想说的话</h4>
 </div>
 
-
+<body>
+  <div class="star" style="top: 100px; left: 400px;"></div>
+  <div class="star" style="top: 80px; left: 800px; animation-delay: 3s;"></div>
+  <div class="star" style="top: 40px; left: 646px; animation-delay: 2s;"></div>
+  <div class="star" style="top: 120px; left: 395px; animation-delay: 4s;"></div>
+  <div class="star" style="top: 160px; left: 765px; animation-delay: 1s;"></div>
+  <div class="star" style="top: 170px; left: 1200px; animation-delay: 2s;"></div>
+  <div class="star" style="top: 200px; left: 1000px; animation-delay: 1s;"></div>
+</body>
 <canvas id="pinkboard"></canvas>
  <canvas id="stars"></canvas>
 <script>
@@ -67,7 +176,7 @@ var context;
             var starCount = 400;
 
             var rains = new Array();
-            var rainCount =1;
+            var rainCount =20;
 
             //初始化画布及context
             function init(){
@@ -85,7 +194,7 @@ var context;
                 this.x = windowWidth * Math.random();//横坐标
                 this.y = 5000 * Math.random();//纵坐标
                 this.text="✧";//文本
-                this.color  = "#ea80b0";//颜色
+                this.color  = "#ec0c70";//颜色
 
                 //产生随机颜色
                 this.getColor=function(){
@@ -95,7 +204,7 @@ var context;
                     if(_r<0.5){
                         this.color = "#333";
                     }else{
-                        this.color = "#ea80b0";
+                        this.color = "#ec0c70";
                     }
 
                 }
@@ -134,7 +243,7 @@ var context;
                 }
 
                 playStars();//绘制闪动的星星
-                playRains();//绘制流星
+
 
 
             }
@@ -150,18 +259,8 @@ var context;
             }
 
   var MeteorRain = function(){
-            this.x = -1;
-            this.y = -1;
-            this.length = -1;//长度
-            this.angle = 30; //倾斜角度
-            this.width = -1;//宽度
-            this.height = -1;//高度
-            this.speed = 1;//速度
-            this.offset_x = -1;//横轴移动偏移量
-            this.offset_y = -1;//纵轴移动偏移量
-            this.alpha = 1; //透明度
-            this.color1 = "#ea80b0";//流星的色彩
-            this.color2 = "";  //流星的色彩
+
+
 
     this.init = function () //初始化
     {
@@ -172,15 +271,7 @@ var context;
         var x = Math.random() * 80 + 150;
         this.length = Math.ceil(x);
 //                  x = Math.random()*10+30;
-        this.angle = 30; //流星倾斜角
-        x = Math.random()+0.5;
-        this.speed = Math.ceil(x); //流星的速度
-        var cos = Math.cos(this.angle*3.14/180);
-        var sin = Math.sin(this.angle*3.14/180) ;
-        this.width = this.length*cos ;  //流星所占宽度
-        this.height = this.length*sin ;//流星所占高度
-        this.offset_x = this.speed*cos ;
-        this.offset_y = this.speed*sin;
+
     }
 
 
@@ -211,27 +302,10 @@ var context;
     {
         context.save();
         context.beginPath();
-        context.lineWidth = 1; //宽度
-        context.globalAlpha = this.alpha; //设置透明度
-        //创建横向渐变颜色,起点坐标至终点坐标
-        var line = context.createLinearGradient(this.x, this.y,
-            this.x + this.width,
-            this.y - this.height);
 
 
 
-        //分段设置颜色
-        line.addColorStop(0, "#ea80b0");
-        line.addColorStop(0.3, this.color1);
-        line.addColorStop(0.6, this.color2);
-        context.strokeStyle = line;
-        //起点
-        context.moveTo(this.x, this.y);
-        //终点
-        context.lineTo(this.x + this.width, this.y - this.height);
-        context.closePath();
-        context.stroke();
-        context.restore();
+
     }
     this.move = function(){
         //清空流星像素
@@ -250,24 +324,6 @@ var context;
 
 }
 
-//绘制流星
-function playRains(){
-
-    for (var n = 0; n < rainCount; n++){
-        var rain = rains[n];
-        rain.move();//移动
-        if(rain.y>window.innerHeight){//超出界限后重来
-            context.clearRect(rain.x,rain.y-rain.height,rain.width,rain.height);
-            rains[n] = new MeteorRain();
-            rains[n].init();
-        }
-    }
-    setTimeout("playRains()",2);
-}
-
-
-
-
 /*
  * Settings
  */
@@ -281,9 +337,6 @@ var settings = {
   },
 };
 
-/*
- * RequestAnimationFrame polyfill by Erik M?ller
- */
 (function()
     {
         var b=0;
@@ -294,9 +347,6 @@ var settings = {
                 {window.requestAnimationFrame=function(h,e)
                     {var d=new Date().getTime();var f=Math.max(0,16-(d-b));var g=window.setTimeout(function(){h(d+f)},f);b=d+f;return g}}if(!window.cancelAnimationFrame){window.cancelAnimationFrame=function(d){clearTimeout(d)}}}());
 
-/*
- * Point class
- */
 var Point = (function() {
   function Point(x, y) {
     this.x = (typeof x !== 'undefined') ? x : 0;
@@ -323,9 +373,6 @@ var Point = (function() {
 })();
 
 
-/*
- * Particle class
- */
 var Particle = (function() {
   function Particle() {
     this.position = new Point();
@@ -360,9 +407,7 @@ var Particle = (function() {
   return Particle;
 })();
 
-/*
- * ParticlePool class
- */
+
 var ParticlePool = (function() {
   var particles,
       firstActive = 0,
@@ -370,7 +415,6 @@ var ParticlePool = (function() {
       duration    = settings.particles.duration;
 
   function ParticlePool(length) {
-    // create and populate particle pool
     particles = new Array(length);
     for (var i = 0; i < particles.length; i++)
       particles[i] = new Particle();
@@ -378,7 +422,6 @@ var ParticlePool = (function() {
   ParticlePool.prototype.add = function(x, y, dx, dy) {
     particles[firstFree].initialize(x, y, dx, dy);
 
-    // handle circular queue
     firstFree++;
     if (firstFree   == particles.length) firstFree   = 0;
     if (firstActive == firstFree       ) firstActive++;
@@ -386,8 +429,6 @@ var ParticlePool = (function() {
   };
   ParticlePool.prototype.update = function(deltaTime) {
     var i;
-
-    // update active particles
     if (firstActive < firstFree) {
       for (i = firstActive; i < firstFree; i++)
         particles[i].update(deltaTime);
@@ -399,7 +440,6 @@ var ParticlePool = (function() {
         particles[i].update(deltaTime);
     }
 
-    // remove inactive particles
     while (particles[firstActive].age >= duration && firstActive != firstFree) {
       firstActive++;
       if (firstActive == particles.length) firstActive = 0;
@@ -408,7 +448,7 @@ var ParticlePool = (function() {
 
   };
   ParticlePool.prototype.draw = function(context, image) {
-    // draw active particles
+
     if (firstActive < firstFree) {
       for (i = firstActive; i < firstFree; i++)
         particles[i].draw(context, image);
@@ -423,16 +463,12 @@ var ParticlePool = (function() {
   return ParticlePool;
 })();
 
-/*
- * Putting it all together
- */
 (function(canvas) {
   var context = canvas.getContext('2d'),
       particles = new ParticlePool(settings.particles.length),
       particleRate = settings.particles.length / settings.particles.duration, // particles/sec
       time;
 
-  // get point on heart with -PI <= t <= PI
   function pointOnHeart(t) {
     return new Point(
       160 * Math.pow(Math.sin(t), 3),
@@ -440,20 +476,19 @@ var ParticlePool = (function() {
     );
   }
 
-  // creating the particle image using a dummy canvas
   var image = (function() {
     var canvas  = document.createElement('canvas'),
         context = canvas.getContext('2d');
     canvas.width  = settings.particles.size;
     canvas.height = settings.particles.size;
-    // helper function to create the path
+
     function to(t) {
       var point = pointOnHeart(t);
       point.x = settings.particles.size / 2 + point.x * settings.particles.size / 350;
       point.y = settings.particles.size / 2 - point.y * settings.particles.size / 350;
       return point;
     }
-    // create the path
+
     context.beginPath();
     var t = -Math.PI;
     var point = to(t);
@@ -465,7 +500,7 @@ var ParticlePool = (function() {
     }
     context.closePath();
     // create the fill 爱心
-    context.fillStyle = '#ea80b0';
+    context.fillStyle = '#ec0c70';
     context.fill();
     // create the image
     var image = new Image();
